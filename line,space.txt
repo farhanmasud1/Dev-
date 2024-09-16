@@ -1,0 +1,23 @@
+%{
+#include<stdio.h>
+int spacec=0, wordc=0, linec=0, characterc=0;
+%}
+
+%%
+[\n] {linec++; characterc = characterc+yyleng;}
+[' '\t] {spacec++; characterc = characterc+yyleng;}
+[A-Za-z]+ {wordc++; characterc = characterc+yyleng;}
+%%
+
+int main(){
+    printf("Enter a string: ");
+    yylex();
+    printf("The number of lines: %d\n",linec);
+    printf("The number of spaces: %d\n",spacec);
+    printf("The number of words: %d\n",wordc);
+    printf("The number of characters: %d\n",characterc);
+}
+
+int yywrap(){
+    return 1;
+}

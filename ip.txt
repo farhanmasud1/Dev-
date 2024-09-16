@@ -1,0 +1,20 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$ {
+    printf("Valid IP Address\n");
+}
+[a-zA-Z0-9.]* {
+    printf("Invalid IP Address\n");
+}
+0 {
+    return 0;
+}
+%%
+
+int main() {
+    yylex();
+    return 0;
+}

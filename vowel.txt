@@ -1,0 +1,22 @@
+%{
+#include<stdio.h>
+int vc=0, cc=0;
+%}
+
+%%
+[ \t\n] ;
+[AEIOUaeiou] {printf("%s\n",yytext); vc++;}
+[^AEIOUaeiou] {printf("%s\n",yytext); cc++;}
+%%
+
+int main(){
+    printf("Enter a text: ");
+    yylex();
+    printf("\nThe number of vowels are:%d",vc);
+    printf("\nThe number of consonants are:%d",cc);
+    
+}
+
+int yywrap(){
+    return 1;
+}
