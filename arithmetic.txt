@@ -1,1 +1,105 @@
+%{
+#include <stdio.h>
+#include <string.h>
+   int operator_count=0, operand_count=0;
+   int valid=1, top=-1, i=0, j=0;
+   char operator[20][20], operand[20][20], stack[100];
+%}
+
+%%
+"(" {
+   top++;
+   stack[top] = '(';
+   }
+   
+"{" {
+   top++;
+   stack[top] = '{';
+   }
+   
+"[" {
+   top++;
+   stack[top] = '[';
+   }
+   
+")" {
+	   if(stack[top]!= '(') {
+	   valid=0;
+	   }
+	   else {
+		   top--;
+		   operand_count= 1;
+		   operator_count=0;
+	   }
+   }
+   
+"}" {
+   if(stack[top]!= '{') {
+   valid=0;
+   }
+   else {
+   top--;
+   operand_count=1;
+   operator_count=0;
+   }
+   }
+   
+"]" {
+   if(stack[top]!= '[') {
+   valid=0;
+   }
+   else {
+   top--;
+   operand_count=1;
+   operator_count=0;
+   }
+   }
+
+"+"|"-"|"*"|"/" {
+   operator_count++;
+   strcpy(operator[i], yytext);
+   i++;
+}
+
+[a-zA-z] {
+   operand_count++;
+   strcpy(operand[j], yytext);
+   j++;
+}
+%%
+
+int main()
+{
+   int K;
+   printf("Enter the arithmetic expression: ");  
+   yylex();  
+    
+    if(operand_count>0 && (operand_count - operator_count)!=1) {
+        valid=0;
+    }
+  
+    if (valid == 1 && top == -1) {  
+        printf("\nValid Expression\n");
+		printf("Operator:\n");
+		for(K=0;K<4;K++)
+		{
+		   puts(operator[K]);
+	    }
+	    
+	    printf("Operand:\n");
+		for(K=0;K<4;K++)
+		{
+		   puts(operand[K]);
+	    }
+    }  
+    else
+        printf("\nInvalid Expression\n");  
+  
+    return 0; 
+}  
+
+int yywrap()
+{
+   return 1;
+}
 
